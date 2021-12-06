@@ -24,3 +24,27 @@ export default function sumPairs(numbers, result) {
 
     return null
 }
+
+//Other form
+export default function sumPairs(numbers, result) {
+
+    const notPar = []
+
+    for (let i = 0; i < numbers.length; i++) {
+
+        if (notPar.includes(numbers[i])) continue
+
+        for (let j = 1; j < numbers.length; j++) {
+
+            if (i === j) continue
+
+            if ((numbers[i] + numbers[j]) === result) {
+                return [numbers[i], numbers[j]]
+            }
+
+        }
+        notPar.push(numbers[i])
+    }
+
+    return null
+}
