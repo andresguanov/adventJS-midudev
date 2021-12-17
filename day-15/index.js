@@ -1,35 +1,29 @@
-// Lara Eloft ha encontrado unos restos élficos en una cueva, cerca del Círculo Polar Ártico, a 8 km al norte de Rovaniemi.
+// ¡Estamos haciendo los últimos ajustes para el trineo de Santa Claus!
 
-// Ahora se encuentra descifrando unas misteriosas cartas que contiene información sobre unos números que le puede hacer llegar al próximo objetivo.
+// Como ya sabes, el trineo es volador y estamos ajustando el motor para que haga parabolas lo más óptimas posibles.Para esto el salto debe ser siempre hacia arriba y, a partir del punto más alto, debe bajar siempre hacia abajo...
 
-// Lara tiene un documento que contiene una serie de números que pueden ser usados para descifrarlos:
+// Nuestro mecánico de confianza, Kiko Belfs, que tiene un Tesla genial, nos ha explicado que los saltos se pueden ver como arrays... y que sólo tenemos que asegurarnos que los números suben y bajan de forma correcta.También nos avisa que sólo pasaremos arrays de, como mínimo, tres posiciones.
 
-// Símbolo       Valor
-//   .             1
-//   ,             5
-//   :             10
-//   ;             50
-//   !             100
-// Lara, además, ha notado una cosa. Los símbolos se restan si están inmediatamente a la izquierda de otro mayor. 😱
+// Lo importante: recorrer el array de izquierda a derecha para ver que la subida es siempre estricta, detectar el punto más alto y entonces ver que la bajada es estricta hacia abajo...
 
-// Tenemos que crear una función que nos pasa una cadena de texto con símbolos y tenemos que transformarlo al número correcto. ¡Ojo! Si encuentras un símbolo que no entendemos, mejor que devolvamos un NaN:
+export default function checkSledJump(heights) {
+    const length = heights.length
+    let top
 
-export default function decodeNumbers(symbols) {
-    symbols = symbols.split("")
-    const VALUES = {
-        ".": 1,
-        ",": 5,
-        ":": 10,
-        ";": 50,
-        "!": 100,
+    for (let i = 0; i < length - 1; i++) {
+        if (heights[i] >= heights[i + 1]) {
+            top = i
+            break
+        }
     }
 
-    return symbols.reduce((acum, item, index) => {
-        const next = symbols[index + 1]
-        if (VALUES[next] > VALUES[item]) {
-            return acum - VALUES[item]
-        } else {
-            return acum + VALUES[item]
+    if (!top) return false
+
+    for (let i = top; i < length - 1; i++) {
+        if (heights[top] < heights[i + 1] || heights[i] < heights[i + 1]) {
+            return false
         }
-    }, 0)
+    }
+
+    return true
 }
